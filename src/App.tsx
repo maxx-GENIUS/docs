@@ -17,7 +17,7 @@ import {
 } from 'lucide-react';
 
 export const App: React.FC = () => {
-  const [activeTab, setActiveTab] = useState<'overview' | 'studio' | 'provider' | 'quickstart'>('overview');
+  const [activeTab, setActiveTab] = useState<'overview' | 'studio' | 'provider' | 'quickstart' | 'tutorial'>('overview');
   const [copiedCode, setCopiedCode] = useState<string | null>(null);
 
   const copyCode = (code: string, id: string) => {
@@ -267,6 +267,122 @@ console.log({ connected, publicKey, network });`}
                 <span className="font-bold block mb-1">Soroban RPC Endpoint</span>
                 <code className="text-blue-600">http://localhost:8000/soroban/rpc</code>
               </div>
+            </div>
+          </div>
+        )}
+
+        {/* TUTORIAL SECTION */}
+        {activeTab === 'tutorial' && (
+          <div className="border-4 border-black bg-white p-8 sm:p-12 rounded-2xl shadow-[8px_8px_0px_0px_#000000] space-y-10">
+            <div>
+              <div className="inline-flex items-center gap-2 neo-badge bg-emerald-100 text-emerald-900 border-black mb-3">
+                <BookOpen className="w-3.5 h-3.5 text-emerald-600" />
+                <span>Developer Guide</span>
+              </div>
+              <h2 className="text-3xl sm:text-4xl font-['Black_Ops_One'] text-black">
+                TESTING SOROBAN dAPPS IN SOROCREW STUDIO
+              </h2>
+              <p className="text-slate-700 font-semibold mt-2 text-base">
+                A complete 5-step walkthrough to connect your frontend, switch networks, fund test accounts, and simulate smart contract calls in seconds.
+              </p>
+            </div>
+
+            {/* Step 1 */}
+            <div className="border-2 border-black p-6 rounded-xl bg-slate-50 shadow-[4px_4px_0px_0px_#000] space-y-3">
+              <div className="flex items-center gap-3">
+                <span className="w-8 h-8 rounded-lg bg-blue-600 text-white font-['Black_Ops_One'] flex items-center justify-center border-2 border-black">
+                  1
+                </span>
+                <h3 className="text-xl font-black">Launch SoroCrew Studio</h3>
+              </div>
+              <p className="text-sm text-slate-700 font-medium">
+                Clone and launch the desktop runner or visit the web companion at <code className="bg-white px-2 py-0.5 border border-black font-mono">https://crew-studio-six.vercel.app</code>.
+              </p>
+              <div className="bg-slate-900 text-emerald-400 p-3 rounded-lg border-2 border-black font-mono text-xs">
+                <code>git clone git@github.com:sorocrew/studio.git &amp;&amp; cd studio &amp;&amp; npm install &amp;&amp; npm run dev</code>
+              </div>
+            </div>
+
+            {/* Step 2 */}
+            <div className="border-2 border-black p-6 rounded-xl bg-slate-50 shadow-[4px_4px_0px_0px_#000] space-y-3">
+              <div className="flex items-center gap-3">
+                <span className="w-8 h-8 rounded-lg bg-yellow-400 text-black font-['Black_Ops_One'] flex items-center justify-center border-2 border-black">
+                  2
+                </span>
+                <h3 className="text-xl font-black">Configure @sorocrew/provider in Your dApp</h3>
+              </div>
+              <p className="text-sm text-slate-700 font-medium">
+                Install the provider SDK into your React / Next.js / Vite project to communicate with Studio's injected frame.
+              </p>
+              <div className="bg-slate-900 text-emerald-400 p-4 rounded-lg border-2 border-black font-mono text-xs overflow-x-auto">
+{// src/lib/stellar.ts
+import { isConnected, getPublicKey, signTransaction } from '@sorocrew/provider';
+
+export async function connectWallet() {
+  if (await isConnected()) {
+    const pubKey = await getPublicKey();
+    console.log('Connected account:', pubKey);
+    return pubKey;
+  }
+  throw new Error('SoroCrew Studio provider not detected');
+}}
+              </div>
+            </div>
+
+            {/* Step 3 */}
+            <div className="border-2 border-black p-6 rounded-xl bg-slate-50 shadow-[4px_4px_0px_0px_#000] space-y-3">
+              <div className="flex items-center gap-3">
+                <span className="w-8 h-8 rounded-lg bg-emerald-500 text-white font-['Black_Ops_One'] flex items-center justify-center border-2 border-black">
+                  3
+                </span>
+                <h3 className="text-xl font-black">Switch Network Environment</h3>
+              </div>
+              <p className="text-sm text-slate-700 font-medium">
+                Use the top network dropdown inside Studio to select your target runtime:
+              </p>
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 font-mono text-xs">
+                <div className="p-3 bg-white border-2 border-black rounded-lg">
+                  <span className="font-black text-blue-600 block mb-1">Local Standalone</span>
+                  <code>http://localhost:8000</code>
+                </div>
+                <div className="p-3 bg-white border-2 border-black rounded-lg">
+                  <span className="font-black text-emerald-600 block mb-1">Stellar Testnet</span>
+                  <code>soroban-testnet.stellar.org</code>
+                </div>
+                <div className="p-3 bg-white border-2 border-black rounded-lg">
+                  <span className="font-black text-purple-600 block mb-1">Futurenet</span>
+                  <code>rpc-futurenet.stellar.org</code>
+                </div>
+              </div>
+            </div>
+
+            {/* Step 4 */}
+            <div className="border-2 border-black p-6 rounded-xl bg-slate-50 shadow-[4px_4px_0px_0px_#000] space-y-3">
+              <div className="flex items-center gap-3">
+                <span className="w-8 h-8 rounded-lg bg-purple-600 text-white font-['Black_Ops_One'] flex items-center justify-center border-2 border-black">
+                  4
+                </span>
+                <h3 className="text-xl font-black">Fund Account with Friendbot</h3>
+              </div>
+              <p className="text-sm text-slate-700 font-medium">
+                Studio provides a 1-click Friendbot faucet button to credit your mock keypair with 10,000 test XLM instantly on Testnet or Futurenet.
+              </p>
+              <div className="bg-slate-900 text-blue-300 p-3 rounded-lg border-2 border-black font-mono text-xs">
+                <code>curl "https://friendbot.stellar.org?addr=&lt;YOUR_PUBLIC_KEY&gt;"</code>
+              </div>
+            </div>
+
+            {/* Step 5 */}
+            <div className="border-2 border-black p-6 rounded-xl bg-slate-50 shadow-[4px_4px_0px_0px_#000] space-y-3">
+              <div className="flex items-center gap-3">
+                <span className="w-8 h-8 rounded-lg bg-rose-500 text-white font-['Black_Ops_One'] flex items-center justify-center border-2 border-black">
+                  5
+                </span>
+                <h3 className="text-xl font-black">Simulate &amp; Invoke Contract Calls</h3>
+              </div>
+              <p className="text-sm text-slate-700 font-medium">
+                Trigger contract transactions from your frontend. Studio intercepts transaction signing requests, allowing you to preview XDR payloads, inspect Soroban auth trees, and confirm simulations without browser extension popups.
+              </p>
             </div>
           </div>
         )}
